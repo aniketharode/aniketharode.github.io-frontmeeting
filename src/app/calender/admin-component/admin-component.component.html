@@ -1,0 +1,75 @@
+<div id="mySidenav" class="sidenav" >
+  <a href="javascript:void(0)" class="closebtn" (click)="closeNav()">&times;</a>
+  <span *ngIf="userDetails">
+      <h2 style="text-align: center"><mdb-badge color="cyan">User List</mdb-badge>
+      </h2>
+   <span *ngFor="let user of userDetails">
+      
+    <a [routerLink]="['/adminmeetingSchedule',user.userId,firstName,userId]">{{user.firstName}} {{user.lastName}}</a>
+   </span>
+  </span>
+ 
+ 
+</div>
+
+
+
+<!--Navbar-->
+<mdb-navbar SideClass="navbar navbar-dark indigo">
+  <mdb-navbar-brand>
+  <span style="cursor:pointer"class="navbar-toggler-icon" (click)="openNav()"></span>
+  <a style="color: white;margin-left: 90%"  (click)="logoutFunction()" mdbWavesEffect>Logout</a>
+</mdb-navbar-brand>
+
+</mdb-navbar>
+
+<!-- Use any element to open the sidenav -->
+
+
+<!-- Add all page content inside this div if you want the side nav to push page content to the right (not used if you only want the sidenav to sit on top of the page -->
+<div id="main">
+  <mdb-card cascade="true" wider="true" reverse="true" class="my-4">
+    <!--Card image-->
+    <div class="view view-cascade overlay waves-light" mdbWavesEffect>
+      <mdb-card-img src="https://mdbootstrap.com/img/Photos/Slides/img%20(70).jpg"></mdb-card-img>
+      <a>
+        <div class="mask rgba-white-slight"></div>
+      </a>
+    </div>
+    <!--/Card image-->
+  
+    <!-- Card content -->
+    <mdb-card-body cascade="true" class="text-center">
+  
+      <!--Title-->
+      <mdb-card-title>
+        <h4>
+          <strong>November 2018</strong>
+        </h4>
+      </mdb-card-title>
+  
+      <h5 class="indigo-text">
+        <strong>Photography</strong>
+      </h5>
+  
+      <mdb-card-text>
+        Sed ut perspiciatis unde omnis iste natus sit voluptatem accusantium doloremque laudantium, totam rem
+        aperiam.
+      </mdb-card-text>
+  
+      <!--Linkedin-->
+      <a class="icons-sm li-ic">
+        <i class="fa fa-linkedin px-2"> </i>
+      </a>
+      <!--Twitter-->
+      <a class="icons-sm tw-ic">
+        <i class="fa fa-twitter px-2"> </i>
+      </a>
+      <!--Dribbble-->
+      <a class="icons-sm fb-ic">
+        <i class="fa fa-facebook px-2"> </i>
+      </a>
+    </mdb-card-body>
+  
+  </mdb-card>
+</div> 

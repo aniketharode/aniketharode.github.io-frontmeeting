@@ -1,0 +1,123 @@
+<!-- Material form login -->
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
+    <mdb-navbar-brand>
+        <a class="navbar-brand" href="#" [routerLink]="['/']">Meeting Planner</a>
+    </mdb-navbar-brand>
+    <links>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link waves-light" href="#" [routerLink]="['/']" mdbWavesEffect>Login <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link waves-light" href="#" [routerLink]="['/forget']" mdbWavesEffect>Forget</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link waves-light" href="#" [routerLink]="['/sign-up']" mdbWavesEffect>Sign-up</a>
+            </li>
+        </ul>
+        <span class="navbar-text white-text">
+            Login
+        </span>
+    </links>
+</mdb-navbar>
+<br/><br/><br/>
+<div class="container" >
+<mdb-card>
+  <mdb-card-header class="info-color white-text text-center py-4">
+    <h5>
+      <strong>Sign in</strong>
+    </h5>
+  </mdb-card-header>
+
+
+
+  <!--Card content-->
+ 
+  <mdb-card-body class="px-lg-5 pt-0">
+    
+    <!-- Form -->
+    <form class="text-center" style="color: #757575;">
+
+      <!-- Email -->
+      <div class="md-form">
+        <input type="email" data-error=" " data-success="" [validateSuccess]="false" [errorMessage]="' '" id="email" name="email" [(ngModel)]="email" class="form-control"   mdbInputDirective>
+        <label for="materialLoginFormEmail" >E-mail</label>
+      </div>
+
+      
+
+
+      <!-- Password -->
+      <div class="md-form">
+        <input type="password" data-error=" " data-success=" " [validateSuccess]="false" [errorMessage]="' '" id="password" name="password" [(ngModel)]="password" class="form-control"  mdbInputDirective>
+        <label for="materialLoginFormPassword">Password</label>
+      </div>
+
+      <div class="d-flex justify-content-around">
+        
+        <div>
+          <!-- Forgot password -->
+          <a href="" [routerLink]="['/forget']">Forgot password?</a>
+        </div>
+      </div>
+
+      <!-- Sign in button -->
+      <button mdbBtn color="info" outline="true" (click)="basicModal.show()" rounded="true" block="true" class="my-2 waves-effect z-depth-0" mdbWavesEffect
+        type="submit">Sign in</button>
+
+      <!-- Register -->
+      <p>Not a member?
+        <a href="" [routerLink]="['/sign-up']">Register</a>
+      </p>
+
+      <!-- Social login -->
+      <p>or sign in with:</p>
+      <a type="button" class="btn-floating btn-fb btn-sm">
+        <mdb-icon icon="facebook"></mdb-icon>
+      </a>
+      <a type="button" class="btn-floating btn-tw btn-sm">
+        <mdb-icon icon="twitter"></mdb-icon>
+      </a>
+      <a type="button" class="btn-floating btn-li btn-sm">
+        <mdb-icon icon="linkedin"></mdb-icon>
+      </a>
+      <a type="button" class="btn-floating btn-git btn-sm">
+        <mdb-icon icon="github"></mdb-icon>
+      </a>
+
+    </form>
+    <!-- Form -->
+
+  </mdb-card-body>
+
+</mdb-card>
+</div>
+<!-- Material form login -->
+
+
+<!--modal logic-->
+
+<!--<button type="button" mdbBtn color="primary" class="relative waves-light" (click)="basicModal.show()" mdbWavesEffect>Launch demo modal</button>-->
+
+<div mdbModal #basicModal="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Important Note before proceed</h4>
+      </div>
+      <div class="modal-body">
+          * Please select any day cell to see the scheduled meeting for the whole month<br/>
+          * always toggle the am pm toggler eg:if you want am and in calender have the 
+          am then am to pm then am toggle but always toggle it at least one then choose your
+          required am pm
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal.hide();" mdbWavesEffect>Close</button>
+        <button type="button" mdbBtn color="primary" class="relative waves-light" (click)="signinFunction()" mdbWavesEffect>Proceed</button>
+      </div>
+    </div>
+  </div>
+</div>

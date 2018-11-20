@@ -1,0 +1,340 @@
+
+<mdb-navbar SideClass="navbar navbar-expand-lg navbar-dark indigo">
+    <mdb-navbar-brand>
+        <span class="navbar-brand" >Meeting Planner</span>
+    </mdb-navbar-brand>
+    <links>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link waves-light"  (click)="logoutFunction()" mdbWavesEffect>Logout <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link waves-light"  [routerLink]="['/forget']" mdbWavesEffect>Forget</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link waves-light"  [routerLink]="['/sign-up']" mdbWavesEffect>Sign-up</a>
+            </li>
+        </ul>
+        <span class="navbar-text white-text">
+            user calender
+        </span>
+    </links>
+</mdb-navbar>
+<br/><br/><br/>
+
+
+
+<!--end of the navbar-->
+<div class="container">
+<ng-template #modalContent let-close="close">
+  <div class="modal-header">
+    <h5 class="modal-title">Event action occurred</h5>
+    <button type="button" class="close" (click)="close()">
+      <span aria-hidden="true">&times;</span>
+    </button>
+  </div>
+  <div class="modal-body">
+    <div>
+      Action:
+      <pre>{{ modalData?.action }}</pre>
+    </div>
+    <div>
+      Event:
+      <pre>{{ modalData?.event | json }}</pre>
+    </div>
+  </div>
+  <div class="modal-footer">
+    <button type="button" class="btn btn-outline-secondary" (click)="close()">OK</button>
+  </div>
+</ng-template>
+
+<div class="row text-center">
+  <div class="col-md-4">
+    <div class="btn-group">
+     
+      <div
+        class="btn btn-outline-secondary"
+        mwlCalendarToday
+        [(viewDate)]="viewDate">
+        Today
+      </div>
+      <div
+        class="btn btn-primary"
+        mwlCalendarNextView
+        [view]="view"
+        [(viewDate)]="viewDate"
+        (viewDateChange)="activeDayIsOpen = false">
+        Next
+      </div>
+      <div
+        class="btn btn-primary"
+        (click)="basicModal1.show()"
+       >
+        Stop snozzing
+      </div>
+    </div>
+  </div>
+  <div class="col-md-4">
+    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'en' }}</h3>
+  </div>
+  <div class="col-md-4">
+    <div class="btn-group">
+      <div
+        class="btn btn-primary"
+        (click)="view = CalendarView.Month"
+        [class.active]="view === CalendarView.Month">
+        Month
+      </div>
+      <div
+        class="btn btn-primary"
+        (click)="view = CalendarView.Week"
+        [class.active]="view === CalendarView.Week">
+        Week
+      </div>
+      <div
+        class="btn btn-primary"
+        (click)="view = CalendarView.Day"
+        [class.active]="view === CalendarView.Day">
+        Day
+      </div>
+    </div>
+  </div>
+</div>
+<br>
+<div [ngSwitch]="view">
+  <mwl-calendar-month-view
+    *ngSwitchCase="CalendarView.Month"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    [activeDayIsOpen]="activeDayIsOpen"
+    (dayClicked)="dayClicked($event.day)"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-month-view>
+  <mwl-calendar-week-view
+    *ngSwitchCase="CalendarView.Week"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-week-view>
+  <mwl-calendar-day-view
+    *ngSwitchCase="CalendarView.Day"
+    [viewDate]="viewDate"
+    [events]="events"
+    [refresh]="refresh"
+    (eventClicked)="handleEvent('Clicked', $event.event)"
+    (eventTimesChanged)="eventTimesChanged($event)">
+  </mwl-calendar-day-view>
+</div>
+
+<br><br><br>
+
+
+<div class="d-none d-xl-block">
+<table class="table table-bordered">
+
+  <thead>
+    <tr>
+      <th>Title</th>
+      <th>Purpose</th>
+      <th>Primary color</th>
+      <th>Starts Date</th>
+      <th>Ends Date</th>
+     
+     
+    </tr>
+  </thead>
+
+  <tbody>
+    <tr *ngFor="let event of events; let index = index">
+      <td>
+       <!-- <input
+          type="textarea"
+          class="form-control"
+          [(ngModel)]="event.title"
+          (keyup)="refresh.next()">-->
+          <div class="md-form">
+            <textarea class="md-textarea form-control " disabled data-error=" " data-success=" " [validateSuccess]="false" [(ngModel)]="event.title" (keyup)="refresh.next()" rows="3" id="input_text" type="text" length="120" mdbCharCounter mdbInputDirective></textarea>
+            <label for="input_text" class="disabled">Title</label>
+          </div>
+      </td>
+      <td>
+       <!-- <input
+          type="text"
+          class="form-control"
+          [(ngModel)]="event.purpose"
+          (keyup)="refresh.next()">-->
+          <div class="md-form">
+            <textarea class="md-textarea form-control "  disabled data-error=" " data-success=" " [validateSuccess]="false" [(ngModel)]="event.purpose" (keyup)="refresh.next()" rows="3" id="input_text" type="text" length="120" mdbCharCounter mdbInputDirective></textarea>
+            <label for="input_text" class="disabled">purpose</label>
+          </div>
+      </td>
+      <td>
+        <input
+          type="color"
+          [(ngModel)]="event.color.primary"
+          (change)="refresh.next()">
+      </td>
+     
+      <td>
+          <input
+        class="form-control"
+        type="text"
+        mwlFlatpickr
+
+        [(ngModel)]="event.start"  
+        
+        (ngModelChange)="refresh.next()"
+        [altInput]="true"
+        [convertModelValue]="true"
+        [enableTime]="true"
+        dateFormat="Y-m-dTH:i"
+        
+        placeholder="Not set">
+      </td>
+      <td>
+        <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+
+          [(ngModel)]="event.end"  
+          
+          (ngModelChange)="refresh.next()"
+          [altInput]="true"
+          [convertModelValue]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          
+          placeholder="Not set">
+      </td>
+    
+      
+    </tr>
+  </tbody>
+
+</table>
+</div>
+
+
+
+  <!--***************modal logic******************-->
+
+<!--<button type="button" mdbBtn color="primary" class="relative waves-light" (click)="basicModal.show()" mdbWavesEffect>Launch demo modal</button>-->
+
+<div mdbModal #basicModal1="mdbModal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal1.hide()">
+          <span aria-hidden="true">×</span>
+        </button>
+        <h4 class="modal-title w-100" id="myModalLabel">Note</h4>
+      </div>
+      <div class="modal-body">
+       *you will not recieve the remainder mails of current scheduled Meeting
+      </div>
+      <div class="modal-footer">
+        <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal1.hide()" mdbWavesEffect>Close</button>
+        <button type="button" mdbBtn color="primary" class="relative waves-light" (click)="stopSnozzing()" mdbWavesEffect>Proceed</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!--end of the modal logic************8-->
+
+
+
+
+
+
+
+
+<!--less screen size logic-->
+
+<div class="d-block d-xl-none">
+  <span *ngFor="let event of events; let index = index">
+    <button type="button" mdbBtn color="primary" class="relative waves-light" (click)="basicModal.show()" mdbWavesEffect>Meeting day is {{event.start.getDate()}}/{{event.start.getMonth()}}/2018 click to see details</button>
+  
+    <div mdbModal #basicModal="mdbModal" style="overflow-y: scroll" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myBasicModalLabel" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close pull-right" aria-label="Close" (click)="basicModal.hide()">
+              <span aria-hidden="true">×</span>
+            </button>
+            <h4 class="modal-title w-100" id="myModalLabel">Modal title</h4>
+          </div>
+          <div class="modal-body md-form">
+  
+  
+            Title:
+            <textarea class="md-textarea form-control " disabled data-error=" " data-success=" " [validateSuccess]="false" [(ngModel)]="event.title" (keyup)="refresh.next()" rows="3" id="input_text" type="text" length="120" mdbCharCounter mdbInputDirective></textarea>
+            <br/>
+            Purpose:
+            <textarea class="md-textarea form-control "  disabled data-error=" " data-success=" " [validateSuccess]="false" [(ngModel)]="event.purpose" (keyup)="refresh.next()" rows="3" id="input_text" type="text" length="120" mdbCharCounter mdbInputDirective></textarea>
+            <br/>    
+            <input
+            type="color"
+            [(ngModel)]="event.color.primary"
+            (change)="refresh.next()">
+            <br/>
+            <input
+          class="form-control"
+          type="text"
+          mwlFlatpickr
+  
+          [(ngModel)]="event.start"  
+          
+          (ngModelChange)="refresh.next()"
+          [altInput]="true"
+          [convertModelValue]="true"
+          [enableTime]="true"
+          dateFormat="Y-m-dTH:i"
+          
+          placeholder="Not set">
+          <br/>
+  
+          <input
+            class="form-control"
+            type="text"
+            mwlFlatpickr
+  
+            [(ngModel)]="event.end"  
+            
+            (ngModelChange)="refresh.next()"
+            [altInput]="true"
+            [convertModelValue]="true"
+            [enableTime]="true"
+            dateFormat="Y-m-dTH:i"
+            
+            placeholder="Not set">
+            <br/>
+  
+          </div>
+          <div class="modal-footer">
+            <button type="button" mdbBtn color="secondary" class="waves-light" aria-label="Close" (click)="basicModal.hide()" mdbWavesEffect>Close</button>
+            
+          </div>
+        </div>
+      </div>
+    </div>
+  </span>
+  </div>
+  <!--modla-->
+  
+  
+  
+  <!--end of modal-->
+
+
+
+
+</div>
+
+
